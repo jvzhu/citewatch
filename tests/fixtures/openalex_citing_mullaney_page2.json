@@ -1,0 +1,8 @@
+{
+  "meta": {"count": 3, "next_cursor": null},
+  "results": [
+    {"id": "https://openalex.org/W3000000001"},
+    {"id": "https://openalex.org/W3000000002"},
+    {"id": "https://openalex.org/W3000000003"}
+  ]
+}
