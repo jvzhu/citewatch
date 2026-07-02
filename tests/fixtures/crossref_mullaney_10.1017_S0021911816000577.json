@@ -1,0 +1,16 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message": {
+    "DOI": "10.1017/S0021911816000577",
+    "title": [
+      "Controlling the Kanjisphere: The Rise of the Sino-Japanese Typewriter and the Birth of CJK"
+    ],
+    "container-title": ["The Journal of Asian Studies"],
+    "issued": {"date-parts": [[2016, 8, 1]]},
+    "author": [
+      {"given": "Thomas S.", "family": "Mullaney"}
+    ],
+    "page": "725-753"
+  }
+}
