@@ -10,6 +10,7 @@ from citewatch.store import Store
 
 YEAR_RE = re.compile(r"\b(19\d{2}|20\d{2})\b")
 TITLE_RE = re.compile(r"[\"“](.*?)[\"”]")
+TITLE_SIMILARITY_THRESHOLD = 0.995
 
 
 def _normalize_title(value: str) -> str:
@@ -44,7 +45,7 @@ def validate_citation(citation: str, store: Store, min_score: int = 60) -> Valid
         _normalize_title(actual_title),
         _normalize_title(pub.title),
     )
-    if title_score < 0.995:
+    if title_score < TITLE_SIMILARITY_THRESHOLD:
         diffs["title"] = {"expected": pub.title, "actual": actual_title}
 
     year_match = YEAR_RE.search(citation)

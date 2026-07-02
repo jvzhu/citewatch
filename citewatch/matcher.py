@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from typing import Any
 
 import requests
@@ -15,7 +16,7 @@ class ScholarlyMatcher:
         contact_email: str = "citewatch@example.com",
         timeout: float = 15.0,
         min_score: int = 70,
-        sleeper: callable | None = None,
+        sleeper: Callable[[], None] | None = None,
     ) -> None:
         self.timeout = timeout
         self.min_score = min_score
