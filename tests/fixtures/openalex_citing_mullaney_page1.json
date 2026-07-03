@@ -1,7 +1,28 @@
 {
-  "meta": {"count": 2, "next_cursor": null},
+  "meta": {
+    "count": 2,
+    "db_response_time_ms": 41,
+    "page": 1,
+    "per_page": 200,
+    "next_cursor": null
+  },
   "results": [
-    {"id": "https://openalex.org/W3000000001"},
-    {"id": "https://openalex.org/W3000000002"}
-  ]
+    {
+      "id": "https://openalex.org/W3000000001",
+      "doi": "https://doi.org/10.1093/oso/9780198792321.003.0004",
+      "display_name": "Scripts, Typographies, and Machines in Modern East Asia",
+      "publication_year": 2018,
+      "type": "book-chapter",
+      "cited_by_count": 9
+    },
+    {
+      "id": "https://openalex.org/W3000000002",
+      "doi": "https://doi.org/10.1215/00219118-8916942",
+      "display_name": "Information Infrastructures and the Politics of Character Encoding",
+      "publication_year": 2020,
+      "type": "article",
+      "cited_by_count": 5
+    }
+  ],
+  "group_by": []
 }

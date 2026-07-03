@@ -1,14 +1,48 @@
 {
   "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
   "message": {
+    "facets": {},
+    "total-results": 2381,
     "items": [
       {
         "DOI": "10.1017/S0021911816000577",
+        "type": "journal-article",
+        "publisher": "Cambridge University Press (CUP)",
         "title": [
           "Controlling the Kanjisphere: The Rise of the Sino-Japanese Typewriter and the Birth of CJK"
         ],
-        "issued": {"date-parts": [[2016, 8, 1]]}
+        "container-title": ["The Journal of Asian Studies"],
+        "volume": "75",
+        "issue": "3",
+        "page": "725-753",
+        "author": [
+          {"given": "Thomas S.", "family": "Mullaney", "sequence": "first", "affiliation": []}
+        ],
+        "issued": {"date-parts": [[2016, 7, 18]]},
+        "is-referenced-by-count": 42,
+        "URL": "https://doi.org/10.1017/s0021911816000577",
+        "score": 68.42
+      },
+      {
+        "DOI": "10.7551/mitpress/9780262036368.001.0001",
+        "type": "monograph",
+        "publisher": "The MIT Press",
+        "title": ["The Chinese Typewriter"],
+        "author": [
+          {"given": "Thomas S.", "family": "Mullaney", "sequence": "first", "affiliation": []}
+        ],
+        "issued": {"date-parts": [[2017]]},
+        "is-referenced-by-count": 121,
+        "URL": "https://doi.org/10.7551/mitpress/9780262036368.001.0001",
+        "score": 31.05
       }
-    ]
+    ],
+    "items-per-page": 5,
+    "query": {
+      "start-index": 0,
+      "search-terms": null
+    }
   }
 }

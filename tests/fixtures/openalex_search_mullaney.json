@@ -1,11 +1,34 @@
 {
-  "meta": {"count": 1, "next_cursor": null},
+  "meta": {
+    "count": 2,
+    "db_response_time_ms": 74,
+    "page": 1,
+    "per_page": 5,
+    "next_cursor": null
+  },
   "results": [
     {
       "id": "https://openalex.org/W1985059706",
       "doi": "https://doi.org/10.1017/s0021911816000577",
+      "title": "Controlling the Kanjisphere: The Rise of the Sino-Japanese Typewriter and the Birth of CJK",
       "display_name": "Controlling the Kanjisphere: The Rise of the Sino-Japanese Typewriter and the Birth of CJK",
-      "publication_year": 2016
+      "publication_year": 2016,
+      "publication_date": "2016-07-18",
+      "type": "article",
+      "cited_by_count": 42,
+      "biblio": {"volume": "75", "issue": "3", "first_page": "725", "last_page": "753"}
+    },
+    {
+      "id": "https://openalex.org/W2765431098",
+      "doi": "https://doi.org/10.7551/mitpress/9780262036368.001.0001",
+      "title": "The Chinese Typewriter: A History",
+      "display_name": "The Chinese Typewriter: A History",
+      "publication_year": 2017,
+      "publication_date": "2017-08-11",
+      "type": "book",
+      "cited_by_count": 121,
+      "biblio": {"volume": null, "issue": null, "first_page": null, "last_page": null}
     }
-  ]
+  ],
+  "group_by": []
 }

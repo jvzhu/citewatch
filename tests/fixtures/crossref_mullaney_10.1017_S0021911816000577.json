@@ -1,16 +1,58 @@
 {
   "status": "ok",
   "message-type": "work",
+  "message-version": "1.0.0",
   "message": {
+    "indexed": {"date-parts": [[2025, 12, 14]], "date-time": "2025-12-14T04:22:11Z"},
+    "reference-count": 58,
+    "publisher": "Cambridge University Press (CUP)",
+    "issue": "3",
+    "content-domain": {"domain": [], "crossmark-restriction": false},
+    "short-container-title": ["J. of Asian Stud."],
+    "published-print": {"date-parts": [[2016, 8]]},
     "DOI": "10.1017/S0021911816000577",
+    "type": "journal-article",
+    "created": {"date-parts": [[2016, 7, 18]], "date-time": "2016-07-18T09:41:32Z"},
+    "page": "725-753",
+    "source": "Crossref",
+    "is-referenced-by-count": 42,
     "title": [
       "Controlling the Kanjisphere: The Rise of the Sino-Japanese Typewriter and the Birth of CJK"
     ],
-    "container-title": ["The Journal of Asian Studies"],
-    "issued": {"date-parts": [[2016, 8, 1]]},
+    "prefix": "10.1017",
+    "volume": "75",
     "author": [
-      {"given": "Thomas S.", "family": "Mullaney"}
+      {
+        "given": "Thomas S.",
+        "family": "Mullaney",
+        "sequence": "first",
+        "affiliation": []
+      }
     ],
-    "page": "725-753"
+    "member": "56",
+    "published-online": {"date-parts": [[2016, 7, 18]]},
+    "container-title": ["The Journal of Asian Studies"],
+    "language": "en",
+    "deposited": {"date-parts": [[2020, 3, 5]], "date-time": "2020-03-05T18:12:47Z"},
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://www.cambridge.org/core/product/identifier/S0021911816000577/type/journal_article"
+      }
+    },
+    "issued": {"date-parts": [[2016, 7, 18]]},
+    "references-count": 58,
+    "journal-issue": {
+      "issue": "3",
+      "published-print": {"date-parts": [[2016, 8]]}
+    },
+    "alternative-id": ["S0021911816000577"],
+    "URL": "https://doi.org/10.1017/s0021911816000577",
+    "ISSN": ["0021-9118", "1752-0401"],
+    "issn-type": [
+      {"value": "0021-9118", "type": "print"},
+      {"value": "1752-0401", "type": "electronic"}
+    ],
+    "published": {"date-parts": [[2016, 7, 18]]}
   }
 }
