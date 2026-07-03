@@ -62,11 +62,15 @@ jobs:
           echo "$OUTPUT"
           NEW_COUNT=$(echo "$OUTPUT" | python -c "
           import json, sys
-          data = json.load(sys.stdin)
-          print(sum(len(r.get('new_citations', [])) for r in data))
-          ")
+          try:
+              data = json.load(sys.stdin)
+              print(sum(len(r.get('new_citations', [])) for r in data))
+          except (json.JSONDecodeError, TypeError):
+              print(0)
+          " 2>/dev/null || echo 0)
           echo "new_count=$NEW_COUNT" >> "$GITHUB_OUTPUT"
-          # Store output for use in the issue step (truncated to avoid env-size limits)
+          # Truncate to 60 000 bytes to stay within GitHub Actions output limits
+          # (GITHUB_OUTPUT values are capped; the full JSON is always printed above).
           echo "output<<EOF" >> "$GITHUB_OUTPUT"
           echo "$OUTPUT" | head -c 60000 >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
