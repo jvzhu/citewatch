@@ -135,6 +135,27 @@ class Store:
                 (publication_id, captured_at, citation_count, json.dumps(citing_ids)),
             )
 
+    def get_by_doi(self, doi: str) -> Publication | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT * FROM publications WHERE doi = ?",
+                (doi,),
+            ).fetchone()
+        if not row:
+            return None
+        return Publication(
+            id=row["id"],
+            title=row["title"],
+            year=row["year"],
+            venue=row["venue"] or "",
+            publication_type=row["publication_type"] or "other",
+            raw_text=row["raw_text"] or "",
+            authors=json.loads(row["authors_json"] or "[]"),
+            doi=row["doi"],
+            openalex_id=row["openalex_id"],
+            match_status=row["match_status"] or "unmatched",
+        )
+
     def latest_snapshot(self, publication_id: int) -> dict | None:
         with self._connect() as conn:
             row = conn.execute(
@@ -143,6 +164,27 @@ class Store:
                 WHERE publication_id = ?
                 ORDER BY id DESC
                 LIMIT 1
+                """,
+                (publication_id,),
+            ).fetchone()
+        if not row:
+            return None
+        return {
+            "publication_id": row["publication_id"],
+            "captured_at": row["captured_at"],
+            "citation_count": row["citation_count"],
+            "citing_openalex_ids": json.loads(row["citing_openalex_ids_json"]),
+        }
+
+    def previous_snapshot(self, publication_id: int) -> dict | None:
+        """Return the second-most-recent snapshot for *publication_id*, or ``None``."""
+        with self._connect() as conn:
+            row = conn.execute(
+                """
+                SELECT * FROM citation_snapshots
+                WHERE publication_id = ?
+                ORDER BY id DESC
+                LIMIT 1 OFFSET 1
                 """,
                 (publication_id,),
             ).fetchone()

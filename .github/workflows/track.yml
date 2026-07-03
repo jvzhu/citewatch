@@ -1,0 +1,135 @@
+name: Track Citations
+
+# Triggers: weekly on Monday at 06:00 UTC, plus manual dispatch.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+# The issues: write permission is needed to create/update the rolling citation issue.
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install citewatch
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      # ── DB persistence ────────────────────────────────────────────────────
+      # Trade-off: actions/cache is simple and avoids committing a binary blob
+      # to git history, but the cache can be evicted after 7 days of inactivity.
+      # For a low-volume personal tool this is acceptable; a committed snapshot
+      # or a dedicated storage service (e.g. S3) would be more durable.
+      - name: Restore DB cache
+        id: cache-db
+        uses: actions/cache@v4
+        with:
+          path: citewatch.db
+          key: citewatch-db-${{ runner.os }}-v1
+
+      # ── Seed publications from dois.txt ───────────────────────────────────
+      - name: Seed publications
+        env:
+          CITEWATCH_EMAIL: ${{ vars.CITEWATCH_EMAIL || 'citewatch@example.com' }}
+        run: |
+          while IFS= read -r doi || [[ -n "$doi" ]]; do
+            # Skip comment lines and blank lines
+            [[ "$doi" =~ ^[[:space:]]*# ]] && continue
+            [[ -z "${doi// }" ]] && continue
+            echo "Adding DOI: $doi"
+            citewatch --db citewatch.db --email "$CITEWATCH_EMAIL" add "$doi" || true
+          done < dois.txt
+
+      # ── Track citations with diff ─────────────────────────────────────────
+      - name: Track citations
+        id: track
+        env:
+          CITEWATCH_EMAIL: ${{ vars.CITEWATCH_EMAIL || 'citewatch@example.com' }}
+        run: |
+          OUTPUT=$(citewatch --db citewatch.db --email "$CITEWATCH_EMAIL" track --diff)
+          echo "$OUTPUT"
+          NEW_COUNT=$(echo "$OUTPUT" | python -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          print(sum(len(r.get('new_citations', [])) for r in data))
+          ")
+          echo "new_count=$NEW_COUNT" >> "$GITHUB_OUTPUT"
+          # Store output for use in the issue step (truncated to avoid env-size limits)
+          echo "output<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$OUTPUT" | head -c 60000 >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      # ── Generate HTML report ──────────────────────────────────────────────
+      - name: Generate report
+        run: citewatch --db citewatch.db report --out report.html
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: citation-report
+          path: report.html
+
+      # ── Open or update rolling GitHub issue for new citations ─────────────
+      - name: Open or update citation issue
+        if: steps.track.outputs.new_count != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const newCount = parseInt('${{ steps.track.outputs.new_count }}', 10);
+            const raw = `${{ steps.track.outputs.output }}`;
+            const date = new Date().toISOString().slice(0, 10);
+            const title = `New citations detected — ${newCount} new (${date})`;
+            const body = [
+              `## New citing works found on ${date}`,
+              '',
+              `**${newCount}** new citing work(s) detected by \`citewatch track --diff\`.`,
+              '',
+              '```json',
+              raw.slice(0, 50000),
+              '```',
+              '',
+              '_Generated automatically by the [Track Citations](' +
+                `https://github.com/${context.repo.owner}/${context.repo.repo}` +
+                '/actions/workflows/track.yml) workflow._',
+            ].join('\n');
+
+            // Find the existing open rolling issue (labelled 'citations')
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'citations',
+              state: 'open',
+              per_page: 1,
+            });
+
+            if (issues.length > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues[0].number,
+                title,
+                body,
+              });
+              console.log(`Updated issue #${issues[0].number}`);
+            } else {
+              const { data: created } = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['citations'],
+              });
+              console.log(`Created issue #${created.number}`);
+            }

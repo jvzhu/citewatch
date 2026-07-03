@@ -1,0 +1,49 @@
+{
+  "id": "https://openalex.org/W4408934567",
+  "doi": "https://doi.org/10.1080/25723618.2024.2433301",
+  "title": "\u201cI Dwell in Possibility\u201d: The Poetics of Space in the Works of 1980s Japanese Avant-Garde Fashion Designers",
+  "display_name": "\u201cI Dwell in Possibility\u201d: The Poetics of Space in the Works of 1980s Japanese Avant-Garde Fashion Designers",
+  "publication_year": 2024,
+  "publication_date": "2024-12-01",
+  "ids": {
+    "openalex": "https://openalex.org/W4408934567",
+    "doi": "https://doi.org/10.1080/25723618.2024.2433301"
+  },
+  "language": "en",
+  "primary_location": {
+    "is_oa": false,
+    "landing_page_url": "https://doi.org/10.1080/25723618.2024.2433301",
+    "pdf_url": null,
+    "source": {
+      "id": "https://openalex.org/S4210190979",
+      "display_name": "Comparative Literature: East & West",
+      "issn_l": "2572-3618",
+      "issn": ["2572-3618"],
+      "host_organization_name": "Taylor & Francis",
+      "type": "journal"
+    },
+    "license": null,
+    "version": null
+  },
+  "type": "article",
+  "type_crossref": "journal-article",
+  "open_access": {"is_oa": false, "oa_status": "closed", "oa_url": null},
+  "authorships": [
+    {
+      "author_position": "first",
+      "author": {
+        "id": "https://openalex.org/A5108234567",
+        "display_name": "Vivien Jiaqian Zhu",
+        "orcid": "https://orcid.org/0000-0002-1789-5272"
+      },
+      "institutions": [],
+      "is_corresponding": true,
+      "raw_author_name": "Vivien Jiaqian Zhu"
+    }
+  ],
+  "cited_by_count": 0,
+  "cited_by_api_url": "https://api.openalex.org/works?filter=cites:W4408934567",
+  "counts_by_year": [],
+  "updated_date": "2025-01-15T00:00:00.000000",
+  "created_date": "2024-12-01"
+}
