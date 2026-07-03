@@ -130,12 +130,11 @@ it, then add the label manually).
 - `tests/fixtures/openalex_search_mullaney.json`: OpenAlex search response fixture (includes a
   distractor item to exercise fuzzy matching).
 - `tests/fixtures/openalex_zhu_doi.json`: OpenAlex work fixture for `10.1080/25723618.2024.2433301`.
-- `tests/fixtures/openalex_citing_mullaney_page*.json`: recorded citing-works fixtures for tracker
-  snapshot/diff tests.
+- `tests/fixtures/openalex_citing_mullaney_page*.json`: citing-works snapshot fixtures for tracker snapshot/diff tests. Despite the `page` naming, these are not pagination pages: they are two successive snapshot payloads (first run vs second run) used to drive the `--diff` assertion. Mullaney (2016) does not appear among the OpenAlex citing works of Lurie's *Realms of Literacy* (2011), so the tracker tests use the article's own citing works as an explicitly mocked linkage.
 - `tests/fixtures/orcid_works_0000-0002-1789-5272.json`: ORCID public API works response for
   ORCID iD `0000-0002-1789-5272` (includes one work with a DOI and one without).
 
-All API interactions in tests use these recorded responses; no live network calls are made.
+All API interactions in tests use these fixtures; no live network calls are made.
 
 Run checks:
 
