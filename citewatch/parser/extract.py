@@ -66,7 +66,7 @@ def extract_publications(text: str) -> list[Publication]:
             Publication(
                 title=title,
                 year=int(year_match.group(1)),
-                venue=entry,
+                venue="",
                 publication_type=entry_section,
                 raw_text=entry,
             )

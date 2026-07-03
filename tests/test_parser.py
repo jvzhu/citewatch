@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from citewatch.parser.extract import extract_publications
 from citewatch.parser.pdf import extract_text_from_pdf
 
@@ -26,3 +28,12 @@ def test_extract_publications_includes_known_lurie_works() -> None:
         "Language, Writing, and Disciplinarity in the Critique of the "
         "'Ideographic Myth': Some Proleptical Remarks,"
     ) in titles
+    assert all(not publication.venue for publication in publications)
+
+
+def test_extract_text_from_non_utf8_non_pdf_raises_clear_error(tmp_path) -> None:
+    path = tmp_path / "binary.dat"
+    path.write_bytes(b"\xff\xfe\x00\x01")
+
+    with pytest.raises(ValueError, match="is not a PDF and is not valid UTF-8 text"):
+        extract_text_from_pdf(path)

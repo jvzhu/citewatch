@@ -55,21 +55,24 @@ def track(
     results: list[dict[str, Any]] = []
     now = datetime.now(timezone.utc).isoformat()
     for publication in store.list_publications():
+        publication_id = publication.id
+        if publication_id is None:
+            raise ValueError("tracked publications must have a database id")
         if not publication.openalex_id:
             doi, openalex_id, status = matcher.resolve(publication)
-            store.update_match(publication.id or 0, doi, openalex_id, status)
+            store.update_match(publication_id, doi, openalex_id, status)
             publication.doi = doi
             publication.openalex_id = openalex_id
             publication.match_status = status
         if not publication.openalex_id:
-            results.append({"publication_id": publication.id, "status": "unmatched"})
+            results.append({"publication_id": publication_id, "status": "unmatched"})
             continue
 
-        previous = store.latest_snapshot(publication.id or 0)
+        previous = store.latest_snapshot(publication_id)
         count, citing_ids = tracker.fetch_citing_works(publication.openalex_id)
-        store.add_snapshot(publication.id or 0, now, count, citing_ids)
+        store.add_snapshot(publication_id, now, count, citing_ids)
         item: dict[str, Any] = {
-            "publication_id": publication.id,
+            "publication_id": publication_id,
             "status": "tracked",
             "citation_count": count,
         }
