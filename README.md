@@ -49,9 +49,9 @@ Exit code is `1` if any citation is a `mismatch`, otherwise `0`.
 - `tests/fixtures/crossref_search_mullaney.json`: Crossref title-search response fixture (includes a distractor item to exercise fuzzy matching).
 - `tests/fixtures/openalex_mullaney_work.json`: OpenAlex work fixture.
 - `tests/fixtures/openalex_search_mullaney.json`: OpenAlex search response fixture (includes a distractor item to exercise fuzzy matching).
-- `tests/fixtures/openalex_citing_mullaney_page*.json`: recorded citing-works fixtures for tracker snapshot/diff tests. Mullaney (2016) does not appear among the OpenAlex citing works of Lurie's *Realms of Literacy* (2011), so the tracker tests use the article's own citing-works pages as an explicitly mocked linkage.
+- `tests/fixtures/openalex_citing_mullaney_page*.json`: citing-works snapshot fixtures for tracker snapshot/diff tests. Despite the `page` naming, these are not pagination pages: they are two successive snapshot payloads (first run vs second run) used to drive the `--diff` assertion. Mullaney (2016) does not appear among the OpenAlex citing works of Lurie's *Realms of Literacy* (2011), so the tracker tests use the article's own citing works as an explicitly mocked linkage.
 
-All API interactions in tests use these recorded responses; no live network calls are made.
+All API interactions in tests use these fixtures; no live network calls are made.
 
 Run checks:
 
