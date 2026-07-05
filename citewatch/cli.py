@@ -20,6 +20,25 @@ from citewatch.validator import validate_many
 
 _FUZZY_DEDUPE_THRESHOLD = 85
 
+_DOI_URL_PREFIXES = (
+    "https://doi.org/",
+    "http://doi.org/",
+    "https://dx.doi.org/",
+    "http://dx.doi.org/",
+    "doi:",
+)
+
+
+def _normalize_doi(doi: str) -> str:
+    """Normalize a DOI: strip whitespace, drop URL/`doi:` prefixes, lowercase."""
+    doi = doi.strip()
+    lowered = doi.lower()
+    for prefix in _DOI_URL_PREFIXES:
+        if lowered.startswith(prefix):
+            doi = doi[len(prefix) :]
+            break
+    return doi.lower()
+
 
 def _parse_command(args: argparse.Namespace) -> int:
     source = args.source
@@ -64,7 +83,7 @@ def _validate_command(args: argparse.Namespace) -> int:
 
 
 def _add_command(args: argparse.Namespace) -> int:
-    doi = args.doi.strip()
+    doi = _normalize_doi(args.doi)
     store = Store(args.db)
 
     # Dedupe: exact DOI match
@@ -127,8 +146,12 @@ def _orcid_command(args: argparse.Namespace) -> int:
     entries = client.fetch_works(orcid_id)
     results: list[dict] = []
 
+    # Cache the publication list once; re-querying SQLite for every ORCID entry
+    # does not scale for large profiles.
+    existing_pubs = store.list_publications()
+
     for entry in entries:
-        doi = entry["doi"]
+        doi = _normalize_doi(entry["doi"]) if entry["doi"] else None
         summary = entry["summary"]
 
         # Dedupe: exact DOI match
@@ -157,13 +180,14 @@ def _orcid_command(args: argparse.Namespace) -> int:
         # Dedupe: fuzzy title match
         is_dup = any(
             fuzz.token_set_ratio(pub.title, ep.title) >= _FUZZY_DEDUPE_THRESHOLD
-            for ep in store.list_publications()
+            for ep in existing_pubs
         )
         if is_dup:
             results.append({"status": "duplicate", "title": pub.title})
             continue
 
         store.add_publications([pub])
+        existing_pubs.append(pub)
         results.append({"status": "added", "doi": doi, "title": pub.title})
 
     print(json.dumps(results, ensure_ascii=False, indent=2))

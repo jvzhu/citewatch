@@ -29,7 +29,7 @@ citewatch --db citewatch.db report --out report.html
 
 The example above uses the following real publication as the worked example:
 
-> Zhu, Vivien Jiaqian. ""I Dwell in Possibility": The Poetics of Space in the Works of 1980s
+> Zhu, Vivien Jiaqian. "'I Dwell in Possibility': The Poetics of Space in the Works of 1980s
 > Japanese Avant-Garde Fashion Designers." *Comparative Literature: East & West* 8, no. 2 (2024).
 > DOI: [10.1080/25723618.2024.2433301](https://doi.org/10.1080/25723618.2024.2433301)
 

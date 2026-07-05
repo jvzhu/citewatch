@@ -37,7 +37,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: citewatch.db
-          key: citewatch-db-${{ runner.os }}-v1
+          # Cache entries are immutable per key, so use a unique key per run
+          # and restore from the most recent cache via the stable prefix.
+          key: citewatch-db-${{ runner.os }}-v1-${{ github.run_id }}
+          restore-keys: |
+            citewatch-db-${{ runner.os }}-v1-
 
       # ── Seed publications from dois.txt ───────────────────────────────────
       - name: Seed publications
