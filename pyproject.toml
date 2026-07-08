@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools==75.1.0", "wheel==0.44.0"]
+requires = ["setuptools==78.1.1", "wheel==0.46.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,14 +9,14 @@ description = "MVP tool for CV parsing, citation tracking, and reference validat
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-  "pypdf==5.1.0",
+  "pypdf==6.13.3",
   "rapidfuzz==3.10.1",
-  "requests==2.32.3",
+  "requests==2.33.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-  "pytest==8.3.3",
+  "pytest==9.0.3",
   "ruff==0.6.9",
 ]
 
